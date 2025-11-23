@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f5f7fa;
+    }
+    table {
+      width: 70%;
+      border-collapse: collapse;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px 18px;
+      text-align: left;
+    }
+    th {
+      background-color: #0078d7;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+    }
+    th:hover {
+      background-color: #005fa3;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    tbody tr:hover {
+      background-color: #e1f0ff;
+    }
+  </style>
+</head>
+<body>
+
+  <table id="employeeTable">
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)">ID ⬍</th>
+        <th onclick="sortTable(1)">Name ⬍</th>
+        <th onclick="sortTable(2)">Role ⬍</th>
+        <th onclick="sortTable(3)">Email ⬍</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>001</td><td>Emma Wilson</td><td>Designer</td><td>emma@example.com</td></tr>
+      <tr><td>002</td><td>Liam Johnson</td><td>Developer</td><td>liam@example.com</td></tr>
+      <tr><td>003</td><td>Sophia Davis</td><td>Manager</td><td>sophia@example.com</td></tr>
+      <tr><td>004</td><td>Oliver Brown</td><td>Analyst</td><td>oliver@example.com</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    function sortTable(n) {
+      const table = document.getElementById("employeeTable");
+      let switching = true, dir = "asc", switchcount = 0;
+
+      while (switching) {
+        switching = false;
+        const rows = table.rows;
+
+        for (let i = 1; i < rows.length - 1; i++) {
+          let shouldSwitch = false;
+          const x = rows[i].getElementsByTagName("TD")[n];
+          const y = rows[i + 1].getElementsByTagName("TD")[n];
+
+          let xContent = x.textContent.toLowerCase();
+          let yContent = y.textContent.toLowerCase();
+
+          if (dir === "asc" && xContent > yContent) {
+            shouldSwitch = true;
+            break;
+          } else if (dir === "desc" && xContent < yContent) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
+          switchcount++;
+        } else {
+          if (switchcount === 0 && dir === "asc") {
+            dir = "desc";
+            switching = true;
+          }
+        }
+      }
+    }
+  </script>
+ 
+
+</body>
+</html>
